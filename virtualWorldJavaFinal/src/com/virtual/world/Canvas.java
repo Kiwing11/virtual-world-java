@@ -6,7 +6,7 @@ public class Canvas extends JPanel {
     World worldToPrint;
         public Canvas(World world){
             worldToPrint = world;
-            setSize(C.WINDOW_WIDTH, C.WINDOW_HEIGHT);
+            setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         }
         @Override
         protected void paintComponent(Graphics g){
@@ -14,7 +14,7 @@ public class Canvas extends JPanel {
             draw(g);
         }
         void drawBackground(Graphics g){
-            g.setColor(C.BEIGE);
+            g.setColor(Constants.BEIGE);
             g.fillRect(0,0,getWidth(),getHeight());
         }
         void draw(Graphics g){

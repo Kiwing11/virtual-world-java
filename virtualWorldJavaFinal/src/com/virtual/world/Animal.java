@@ -1,6 +1,7 @@
 package com.virtual.world;
 
-import com.virtual.world.animals.*;
+import com.virtual.world.entities.animals.*;
+import com.virtual.world.utils.Description;
 
 import java.awt.*;
 import java.util.Objects;
@@ -38,7 +39,7 @@ public abstract class Animal extends Organism{
             if(posTmpOther.equals(other.getPos()) ){
                 return;
             }
-            for(int i = 0; i < C.TOTAL_ANIMAL_SPIECES; i++){
+            for(int i = 0; i < Constants.TOTAL_ANIMAL_SPIECES; i++){
                 if(this.getClass() == Sheep.class){
                     organismTmp = new Sheep(whichWorld, posTmpThis);
                 }
@@ -57,7 +58,7 @@ public abstract class Animal extends Organism{
             }
         }
         else{
-            for(int i = 0; i < C.TOTAL_ANIMAL_SPIECES; i++){
+            for(int i = 0; i < Constants.TOTAL_ANIMAL_SPIECES; i++){
                 if(this.getClass() == Sheep.class){
                     organismTmp = new Sheep(whichWorld, posTmpOther);
                 }

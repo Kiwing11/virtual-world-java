@@ -1,15 +1,16 @@
 package com.virtual.world;
 
 
-import com.virtual.world.animals.*;
-import com.virtual.world.plants.*;
+import com.virtual.world.entities.animals.*;
+import com.virtual.world.entities.plants.*;
+import com.virtual.world.utils.Description;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
 
-import static com.virtual.world.C.TOTAL_SPIECES;
+import static com.virtual.world.Constants.TOTAL_SPIECES;
 
 public class World extends JPanel {
     private int X, Y;

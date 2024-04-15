@@ -4,13 +4,13 @@ package com.virtual.world;
 import java.awt.*;
 import java.util.Random;
 
-import static com.virtual.world.C.*;
+import static com.virtual.world.Constants.*;
 
 public abstract class Organism {
     protected int strength;
     protected int initiative;
     protected int age = 0;
-    protected int range = C.DEFAULT_RANGE;
+    protected int range = Constants.DEFAULT_RANGE;
     protected int chanceToMove = 100;
     protected int chanceToSpread = 10;
     //KIERUNEK
@@ -111,8 +111,8 @@ public abstract class Organism {
         int x = currentPos.x;
         int y = currentPos.y;
         Point newPos = new Point(x,y);
-        boolean[] freeDirections = new boolean[C.TOTAL_DIRECTIONS];
-        for(int i = 0; i < C.TOTAL_DIRECTIONS; i++){
+        boolean[] freeDirections = new boolean[Constants.TOTAL_DIRECTIONS];
+        for(int i = 0; i < Constants.TOTAL_DIRECTIONS; i++){
             freeDirections[i] = this.avaiableDirections[i];
         }
 
@@ -124,9 +124,9 @@ public abstract class Organism {
         }
 
         while(true){
-            if(!freeDirections[UP] && !freeDirections[C.RIGHT] && !freeDirections[C.DOWN] && !freeDirections[C.LEFT])
+            if(!freeDirections[UP] && !freeDirections[Constants.RIGHT] && !freeDirections[Constants.DOWN] && !freeDirections[Constants.LEFT])
                 break;
-            r = rand.nextInt(C.TOTAL_DIRECTIONS); // 4 = 3+1
+            r = rand.nextInt(Constants.TOTAL_DIRECTIONS); // 4 = 3+1
 
             //MIEJCE NA R CZLOWIEKA
 
@@ -172,17 +172,17 @@ public abstract class Organism {
         int x = currentPos.x;
         int y = currentPos.y;
         Point newPos = new Point(x,y);
-        boolean[] freeDirections = new boolean[C.TOTAL_DIRECTIONS];
-        for(int i = 0; i < C.TOTAL_DIRECTIONS; i++){
+        boolean[] freeDirections = new boolean[Constants.TOTAL_DIRECTIONS];
+        for(int i = 0; i < Constants.TOTAL_DIRECTIONS; i++){
             freeDirections[i] = this.avaiableDirections[i];
         }
 
         //CZY ORGANIZM SIE PORUSZY
         Random rand = new Random();
         while(true){
-            if(!freeDirections[UP] && !freeDirections[C.RIGHT] && !freeDirections[C.DOWN] && !freeDirections[C.LEFT])
+            if(!freeDirections[UP] && !freeDirections[Constants.RIGHT] && !freeDirections[Constants.DOWN] && !freeDirections[Constants.LEFT])
                 break;
-           int r = rand.nextInt(C.TOTAL_DIRECTIONS); // 4 = 3+1
+           int r = rand.nextInt(Constants.TOTAL_DIRECTIONS); // 4 = 3+1
 
             switch(r){
                 case UP:

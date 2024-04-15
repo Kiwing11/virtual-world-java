@@ -1,6 +1,7 @@
 package com.virtual.world;
 
-import com.virtual.world.plants.*;
+import com.virtual.world.entities.plants.*;
+import com.virtual.world.utils.Description;
 
 import java.awt.*;
 import java.util.Random;

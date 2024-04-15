@@ -1,7 +1,9 @@
 package com.virtual.world;
 
-import com.virtual.world.animals.*;
-import com.virtual.world.plants.*;
+import com.virtual.world.entities.animals.*;
+import com.virtual.world.entities.plants.*;
+import com.virtual.world.utils.Description;
+import com.virtual.world.utils.FromStringToOrganism;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -15,21 +17,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainWindow extends JFrame {
-    World worldToPrint;
-    Canvas canvas;
-    JButton newGame;
-    JButton nextTurn;
-    JButton save;
-    JFrame input;
-    JList c1;
-    JTextArea logs = new JTextArea(Description.stateOfGame);
-    JScrollPane scrollPane;
-    JButton load;
-    JFileChooser fileChooser;
-    ArrayList<JButton> mapButtons = new ArrayList<JButton>();
+    private World worldToPrint;
+    private Canvas canvas;
+    private JButton newGame;
+    private JButton nextTurn;
+    private JButton save;
+    private JFrame input;
+    private JList c1;
+    private JTextArea logs = new JTextArea(Description.stateOfGame);
+    private JScrollPane scrollPane;
+    private JButton load;
+    private JFileChooser fileChooser;
+    private ArrayList<JButton> mapButtons = new ArrayList<JButton>();
 
     public MainWindow(){
-        Dimension d = new Dimension(C.WINDOW_WIDTH, C.WINDOW_HEIGHT);
+        Dimension d = new Dimension(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         setSize(d);
         setTitle("VirtualWorld Krystian Przybysz 188918");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,8 +44,8 @@ public class MainWindow extends JFrame {
     }
 
     void setRectSize(int N, int M){
-        int rectWidth = C.GAME_VIEW_WIDTH/N;
-        int rectHeight = C.GAME_VIEW_HEIGHT/M;
+        int rectWidth = Constants.GAME_VIEW_WIDTH/N;
+        int rectHeight = Constants.GAME_VIEW_HEIGHT/M;
         worldToPrint.rectWidth = rectWidth;
         worldToPrint.rectHeight = rectHeight;
     }
@@ -53,7 +55,7 @@ public class MainWindow extends JFrame {
 
         //NOWA GRA
     newGame = new JButton();
-    newGame.setBounds(0, C.WINDOW_HEIGHT- 2*C.MARGIN,C.BIG_BUTTON_WIDTH,C.BIG_BUTTON_HEIGHT);
+    newGame.setBounds(0, Constants.WINDOW_HEIGHT- 2* Constants.MARGIN, Constants.BIG_BUTTON_WIDTH, Constants.BIG_BUTTON_HEIGHT);
     newGame.setText("Nowa Gra");
     newGame.addActionListener(new ActionListener() {
         @Override
@@ -68,7 +70,7 @@ public class MainWindow extends JFrame {
             worldToPrint.generateOrganisms();
             //WYSWIETLENIE PLANSZY GRY
             canvas = new Canvas(worldToPrint);
-            canvas.setBounds(0,0, C.GAME_VIEW_WIDTH, C.GAME_VIEW_HEIGHT);
+            canvas.setBounds(0,0, Constants.GAME_VIEW_WIDTH, Constants.GAME_VIEW_HEIGHT);
             add(canvas);
             canvas.repaint();
             newGame.setVisible(false);
@@ -83,7 +85,7 @@ public class MainWindow extends JFrame {
 
     //NASTEPNA TURA
     nextTurn = new JButton();
-    nextTurn.setBounds(0 + C.BUTTON_WIDTH, C.WINDOW_HEIGHT - C.MARGIN, C.BUTTON_WIDTH, C.BUTTON_HEIGHT);
+    nextTurn.setBounds(0 + Constants.BUTTON_WIDTH, Constants.WINDOW_HEIGHT - Constants.MARGIN, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
     nextTurn.setText("Nastepna Tura");
     nextTurn.addActionListener(new ActionListener() {
         @Override
@@ -101,7 +103,7 @@ public class MainWindow extends JFrame {
     add(newGame);
     //ZAPISZ GRE
     save = new JButton("Zapisz");
-    save.setBounds(0 , C.WINDOW_HEIGHT - C.MARGIN, C.BUTTON_WIDTH, C.BUTTON_HEIGHT);
+    save.setBounds(0 , Constants.WINDOW_HEIGHT - Constants.MARGIN, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
     save.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -118,7 +120,7 @@ public class MainWindow extends JFrame {
 
     //WCZYTAJ GRE
     load = new JButton("Wczytaj");
-    load.setBounds(0 , C.WINDOW_HEIGHT - 2 * C.MARGIN - C.BIG_BUTTON_HEIGHT, C.BIG_BUTTON_WIDTH, C.BIG_BUTTON_HEIGHT);
+    load.setBounds(0 , Constants.WINDOW_HEIGHT - 2 * Constants.MARGIN - Constants.BIG_BUTTON_HEIGHT, Constants.BIG_BUTTON_WIDTH, Constants.BIG_BUTTON_HEIGHT);
     load.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -141,40 +143,40 @@ public class MainWindow extends JFrame {
                     String symbol = data[0];
                     switch (symbol){
                         case "W":
-                            tmpWorld.add(new Wolf(tmpWorld, Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])) ));
+                            tmpWorld.add(new Wolf(tmpWorld, Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])) ));
                             break;
                         case "O":
-                            tmpWorld.add(new Sheep(tmpWorld, Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])) ));
+                            tmpWorld.add(new Sheep(tmpWorld, Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])) ));
                             break;
                         case "L":
-                            tmpWorld.add(new Fox(tmpWorld, Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])) ));
+                            tmpWorld.add(new Fox(tmpWorld, Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])) ));
                             break;
                         case "A":
-                            tmpWorld.add(new Antelope(tmpWorld, Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])) ));
+                            tmpWorld.add(new Antelope(tmpWorld, Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])) ));
                             break;
                         case "Z":
-                            tmpWorld.add(new Turtle(tmpWorld,Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])) ));
+                            tmpWorld.add(new Turtle(tmpWorld,Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])) ));
                             break;
                         case "C":
-                            Human tmpHuman = new Human(tmpWorld, Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])), Integer.parseInt(data[C.H_CDOWN]), Integer.parseInt(data[C.H_DUR]));
+                            Human tmpHuman = new Human(tmpWorld, Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])), Integer.parseInt(data[Constants.H_CDOWN]), Integer.parseInt(data[Constants.H_DUR]));
                             tmpWorld.add(tmpHuman);
                             tmpWorld.human = tmpHuman;
                             tmpHuman.isAbilityOn();
                             break;
                         case "M":
-                            tmpWorld.add(new Dandelion(tmpWorld, Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])) ));
+                            tmpWorld.add(new Dandelion(tmpWorld, Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])) ));
                             break;
                         case "T":
-                            tmpWorld.add(new Grass(tmpWorld, Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])) ));
+                            tmpWorld.add(new Grass(tmpWorld, Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])) ));
                             break;
                         case ":":
-                            tmpWorld.add(new Wolfberries(tmpWorld, Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])) ));
+                            tmpWorld.add(new Wolfberries(tmpWorld, Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])) ));
                             break;
                         case ";":
-                            tmpWorld.add(new SosnowskisHogweed(tmpWorld, Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])) ));
+                            tmpWorld.add(new SosnowskisHogweed(tmpWorld, Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])) ));
                             break;
                         case "g":
-                            tmpWorld.add(new Guarana(tmpWorld, Integer.parseInt(data[C.STRENGTH]),Integer.parseInt(data[C.INITIATIVE]),Integer.parseInt(data[C.AGE]), new Point(Integer.parseInt(data[C.POS_X]), Integer.parseInt(data[C.POS_Y])) ));
+                            tmpWorld.add(new Guarana(tmpWorld, Integer.parseInt(data[Constants.STRENGTH]),Integer.parseInt(data[Constants.INITIATIVE]),Integer.parseInt(data[Constants.AGE]), new Point(Integer.parseInt(data[Constants.POS_X]), Integer.parseInt(data[Constants.POS_Y])) ));
                             break;
 
                     }
@@ -183,7 +185,7 @@ public class MainWindow extends JFrame {
                 worldToPrint = tmpWorld;
                 setRectSize(tmpX,tmpY);
                 canvas = new Canvas(worldToPrint);
-                canvas.setBounds(0,0, C.GAME_VIEW_WIDTH, C.GAME_VIEW_HEIGHT);
+                canvas.setBounds(0,0, Constants.GAME_VIEW_WIDTH, Constants.GAME_VIEW_HEIGHT);
                 add(canvas);
                 canvas.repaint();
                 newGame.setVisible(false);
@@ -212,20 +214,20 @@ public class MainWindow extends JFrame {
                 System.out.println(e);
                 if (worldToPrint.isHumanAlive && worldToPrint.human != null) {
                     if (key == KeyEvent.VK_UP) {
-                        worldToPrint.setHumansMove(C.UP);
-                        worldToPrint.getHuman().setDirection(C.UP);
+                        worldToPrint.setHumansMove(Constants.UP);
+                        worldToPrint.getHuman().setDirection(Constants.UP);
                         worldToPrint.nextTurn();
                     } else if (key == KeyEvent.VK_RIGHT) {
-                        worldToPrint.setHumansMove((C.RIGHT));
-                        worldToPrint.getHuman().setDirection(C.RIGHT);
+                        worldToPrint.setHumansMove((Constants.RIGHT));
+                        worldToPrint.getHuman().setDirection(Constants.RIGHT);
                         worldToPrint.nextTurn();
                     } else if (key == KeyEvent.VK_DOWN) {
-                        worldToPrint.setHumansMove((C.DOWN));
-                        worldToPrint.getHuman().setDirection(C.DOWN);
+                        worldToPrint.setHumansMove((Constants.DOWN));
+                        worldToPrint.getHuman().setDirection(Constants.DOWN);
                         worldToPrint.nextTurn();
                     } else if (key == KeyEvent.VK_LEFT) {
-                        worldToPrint.setHumansMove((C.LEFT));
-                        worldToPrint.getHuman().setDirection(C.LEFT);
+                        worldToPrint.setHumansMove((Constants.LEFT));
+                        worldToPrint.getHuman().setDirection(Constants.LEFT);
                         worldToPrint.nextTurn();
                     }
                     if (key == KeyEvent.VK_R) {
@@ -249,7 +251,7 @@ public class MainWindow extends JFrame {
         scrollPane = new JScrollPane(logs);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(C.WINDOW_WIDTH-C.LOG_PANEL_WIDTH,0, C.LOG_PANEL_WIDTH,C.LOG_PANEL_HEIGHT);
+        scrollPane.setBounds(Constants.WINDOW_WIDTH- Constants.LOG_PANEL_WIDTH,0, Constants.LOG_PANEL_WIDTH, Constants.LOG_PANEL_HEIGHT);
     }
     //PLANSZA PRZYCISKOW DO DODAWANIA ZWIERZAT
     public void buttonBoard() {
@@ -271,7 +273,7 @@ public class MainWindow extends JFrame {
                         public void actionPerformed(ActionEvent e) {
                             System.out.println(e);
                             JFrame list = new JFrame();
-                            list.setSize(C.LIST_WIDTH,C.LIST_HEIGHT);
+                            list.setSize(Constants.LIST_WIDTH, Constants.LIST_HEIGHT);
                             String spieces[] = {"Owca","Wilk","Lis","Antylopa","Zolw","Trawa","Mlecz","Guarana","Wilcze Jagody","Barszcz Sosnowskiego"};
                             c1 = new JList(spieces);
                             c1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
